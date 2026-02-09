@@ -37,11 +37,6 @@
   ],
   "anchors": [
     {
-      "name": "API Reference",
-      "icon": "code",
-      "url": "/api-reference"
-    },
-    {
       "name": "GitHub",
       "icon": "github",
       "url": "https://github.com/herd-eco"
