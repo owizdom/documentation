@@ -1,0 +1,283 @@
+---
+title: DeFi Analysis
+description: "Learn to analyze DeFi protocols, swaps, and complex transactions"
+---
+
+# DeFi Analysis with Herd MCP
+
+This guide teaches you how to analyze DeFi protocols, understand transactions, and decode complex on-chain activity.
+
+## Understanding Swaps
+
+### Scenario: Decoding a Uniswap Swap
+
+You found a transaction hash and want to understand what swap occurred.
+
+**Step 1: Get the basic info**
+
+```
+What happened in transaction 0x[your_tx_hash]?
+```
+
+**Claude will return:**
+- The function called (e.g., `exactInputSingle`)
+- Input/output tokens
+- Amounts swapped
+- Exchange rate achieved
+- Gas cost
+
+**Step 2: Understand the routing**
+
+```
+How did this swap route through different pools?
+```
+
+For multi-hop swaps, Claude will explain:
+- Each pool in the route
+- Why this route was chosen
+- Fee tiers used
+
+**Step 3: Check if it was a good trade**
+
+```
+Was this swap price better or worse than current market prices?
+```
+
+### Example Output
+
+```
+Transaction Analysis: Uniswap V3 Swap
+=====================================
+
+Action: Swapped 10,000 USDC → 3.52 ETH
+
+Route: USDC → WETH (0.05% fee pool)
+
+Details:
+- Input: 10,000 USDC
+- Output: 3.52 WETH
+- Effective Rate: 1 ETH = 2,840.91 USDC
+- Slippage: 0.12% from quoted price
+- Gas Cost: $8.45 (0.0027 ETH)
+
+Pool Used: 0x88e6... (USDC/WETH 0.05%)
+- Pool Liquidity: $245M
+- 24h Volume: $89M
+```
+
+## Analyzing Lending Protocols
+
+### Scenario: Understanding an Aave Position
+
+**Step 1: Get protocol overview**
+
+```
+Explain how Aave V3's lending pool works
+```
+
+**Step 2: Analyze a specific transaction**
+
+```
+What happened in this Aave deposit transaction: 0x...?
+```
+
+**Step 3: Check a user's position**
+
+```
+What are this wallet's Aave positions?
+Check 0x[user_address]
+```
+
+### Key Lending Protocol Functions
+
+| Function | What It Does |
+|----------|--------------|
+| `supply` / `deposit` | Add collateral |
+| `borrow` | Take a loan |
+| `repay` | Pay back loan |
+| `withdraw` | Remove collateral |
+| `liquidate` | Close underwater position |
+
+### Example: Liquidation Analysis
+
+```
+Analyze this liquidation transaction: 0x...
+- Why was the position liquidated?
+- What was the liquidation penalty?
+- Who was the liquidator?
+```
+
+**Claude will explain:**
+```
+Liquidation Analysis
+====================
+
+Liquidated User: 0xUser...
+Liquidator: 0xBot...
+
+Position Before:
+- Collateral: 10 ETH ($30,000)
+- Debt: 25,000 USDC
+- Health Factor: 0.95 (below 1.0 = liquidatable)
+
+What Happened:
+- Liquidator repaid: 12,500 USDC (50% of debt)
+- Liquidator received: 4.375 ETH (with 5% bonus)
+- Protocol fee: 0.125 ETH
+
+Why Liquidated:
+- ETH price dropped 15% in 24h
+- User didn't add collateral or repay
+- Health factor fell below 1.0
+```
+
+## Yield Farming Analysis
+
+### Scenario: Understanding LP Rewards
+
+**Step 1: Analyze the staking contract**
+
+```
+What does this yield farming contract do? 0x[staking_contract]
+```
+
+**Step 2: Check reward mechanisms**
+
+```
+How are rewards calculated in this contract?
+Find the reward distribution logic
+```
+
+**Step 3: Analyze a claim transaction**
+
+```
+What rewards were claimed in transaction 0x...?
+```
+
+### Example: Curve LP Staking
+
+```
+Curve Staking Analysis
+======================
+
+Contract: Curve 3pool Gauge (0x...)
+
+How It Works:
+1. Users deposit LP tokens
+2. CRV rewards accrue over time
+3. Rewards based on:
+   - Time staked
+   - Share of total deposits
+   - Boost from veCRV
+
+Current Stats:
+- Total Staked: $450M
+- Base APR: 2.5%
+- Boosted APR: Up to 6.25%
+
+User Position (0x...):
+- Staked: 50,000 LP tokens
+- Pending Rewards: 125 CRV ($62.50)
+- Boost: 1.8x
+```
+
+## Complex Transaction Analysis
+
+### Multi-Protocol Transactions
+
+Some transactions interact with multiple protocols:
+
+```
+Decode this complex transaction: 0x...
+Show me every protocol it touched
+```
+
+**Example Output:**
+
+```
+Multi-Protocol Transaction Analysis
+===================================
+
+Transaction Flow:
+1. Flash Loan from Aave
+   └─ Borrowed: 1,000,000 USDC
+
+2. Swap on Uniswap V3
+   └─ 1,000,000 USDC → 352 WETH
+
+3. Deposit to Compound
+   └─ Deposited: 352 WETH as collateral
+
+4. Borrow from Compound
+   └─ Borrowed: 800,000 USDC
+
+5. Repay Flash Loan
+   └─ Repaid: 1,000,000 USDC + 900 USDC fee
+
+Net Result:
+- User now has 352 WETH collateral on Compound
+- User has 800,000 USDC debt on Compound
+- User kept: 0 (leveraged position opened)
+
+Strategy: Leveraged ETH Long
+- Effective leverage: ~3.5x
+- Liquidation price: ~$1,700/ETH
+```
+
+## Protocol Comparison
+
+### Comparing Implementations
+
+```
+Compare how Uniswap V2 vs V3 handle swaps
+```
+
+```
+What's different between Aave V2 and V3?
+```
+
+### Finding the Best Rates
+
+```
+If I wanted to swap 100,000 USDC for ETH,
+which DEX would give me the best rate?
+```
+
+## Tips for DeFi Analysis
+
+<Tip>
+**Start with the transaction.** The transaction tells you exactly what happened.
+</Tip>
+
+<Tip>
+**Understand the protocol first.** Ask Claude to explain the protocol before diving into specific transactions.
+</Tip>
+
+<Tip>
+**Follow the money.** Track token flows to understand the economic impact.
+</Tip>
+
+<Tip>
+**Check for MEV.** Ask "Was this transaction frontrun or sandwiched?"
+</Tip>
+
+## Common DeFi Queries
+
+| What You Want | How to Ask |
+|---------------|------------|
+| Understand a swap | "Decode this swap transaction" |
+| Check lending position | "What's this wallet's position on Aave?" |
+| Analyze yield | "What's the APR on this farm?" |
+| Track LP tokens | "What happened to this LP position?" |
+| Understand flash loans | "Explain this flash loan transaction" |
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Security Research" icon="shield" href="/examples/security-research">
+    Learn contract auditing
+  </Card>
+  <Card title="Wallet Investigation" icon="magnifying-glass" href="/examples/wallet-investigation">
+    Track wallets and funds
+  </Card>
+</CardGroup>

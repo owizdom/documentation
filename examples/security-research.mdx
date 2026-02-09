@@ -1,0 +1,324 @@
+---
+title: Security Research
+description: "Audit smart contracts, investigate incidents, and find vulnerabilities"
+---
+
+# Security Research with Herd MCP
+
+This guide covers how to use Herd MCP for smart contract auditing, incident investigation, and security analysis.
+
+## Contract Auditing Basics
+
+### Scenario: Reviewing a New Token Contract
+
+**Step 1: Get the contract overview**
+
+```
+Give me an overview of this token contract: 0x...
+Is it verified? What standard does it follow?
+```
+
+**Step 2: Check for red flags**
+
+```
+Does this token have any concerning functions like:
+- Blacklist/whitelist
+- Pause functionality
+- Mint without limits
+- Hidden fees
+- Owner privileges
+```
+
+**Step 3: Analyze the code**
+
+```
+Show me the transfer function. Does it have any unusual logic?
+```
+
+### Red Flags Checklist
+
+| Red Flag | What to Look For |
+|----------|------------------|
+| Unlimited Minting | `mint()` callable by owner without cap |
+| Hidden Fees | Fee logic in transfer that's not obvious |
+| Blacklist | Ability to freeze user funds |
+| Honeypot | Can buy but not sell |
+| Proxy Risk | Upgradeable without timelock |
+| Reentrancy | External calls before state updates |
+
+### Example: Token Audit Output
+
+```
+Token Audit: 0xSuspiciousToken...
+=================================
+
+Contract: "SafeMoonV2" (not affiliated with original)
+Verified: Yes
+Compiler: Solidity 0.8.19
+
+RED FLAGS FOUND:
+
+1. Owner Can Mint (CRITICAL)
+   └─ function mint(address to, uint256 amount) onlyOwner
+   └─ No maximum supply enforced
+
+2. Trading Can Be Paused (HIGH)
+   └─ function pause() onlyOwner
+   └─ Users cannot sell when paused
+
+3. Hidden Fee Mechanism (HIGH)
+   └─ function _transfer includes:
+      └─ uint256 fee = amount * taxRate / 100
+      └─ taxRate can be set to 99% by owner
+
+4. Blacklist Functionality (MEDIUM)
+   └─ mapping(address => bool) public isBlacklisted
+   └─ Blacklisted addresses cannot transfer
+
+VERDICT: HIGH RISK - Do not interact
+```
+
+## Investigating Security Incidents
+
+### Scenario: Post-Hack Analysis
+
+**Step 1: Analyze the exploit transaction**
+
+```
+Decode this exploit transaction: 0x[hack_tx]
+Show me every step of what happened
+```
+
+**Step 2: Understand the vulnerability**
+
+```
+What was the vulnerability that allowed this exploit?
+Show me the vulnerable code
+```
+
+**Step 3: Track stolen funds**
+
+```
+Where did the stolen funds go after the exploit?
+```
+
+### Example: Exploit Analysis
+
+```
+Exploit Analysis: Protocol X Hack
+=================================
+
+Exploit Transaction: 0xabc...
+Attacker: 0xHacker...
+Funds Lost: $2.3M
+
+Attack Steps:
+1. Attacker called flashLoan() for 10,000 ETH
+2. Deposited ETH as collateral in Protocol X
+3. Exploited reentrancy in withdraw()
+   └─ withdraw() called _transfer() before updating balance
+   └─ _transfer() had callback to attacker contract
+   └─ Attacker re-entered and withdrew again
+4. Repeated 10 times, draining pool
+5. Repaid flash loan, kept profits
+
+Vulnerable Code (withdraw function):
+```solidity
+function withdraw(uint256 amount) external {
+    // BUG: External call before state update
+    token.transfer(msg.sender, amount);  // <- reentrancy here
+    balances[msg.sender] -= amount;       // <- should be first
+}
+```
+
+Root Cause: Missing reentrancy guard
+Fix: Add nonReentrant modifier or checks-effects-interactions pattern
+```
+
+## Code Pattern Analysis
+
+### Finding Specific Vulnerabilities
+
+**Reentrancy:**
+```
+Search for reentrancy vulnerabilities in contract 0x...
+Look for external calls before state updates
+```
+
+**Access Control:**
+```
+What functions can only the owner call in this contract?
+Are there any admin functions that could be dangerous?
+```
+
+**Integer Issues:**
+```
+Does this contract have any integer overflow/underflow risks?
+```
+
+### Finding Code Patterns
+
+```
+Find all functions that can move user funds in this contract
+```
+
+```
+Show me all external calls in this contract
+```
+
+```
+Does this contract use delegatecall anywhere?
+```
+
+## Upgrade Safety Analysis
+
+### Checking Proxy Implementations
+
+**Step 1: Identify proxy pattern**
+
+```
+Is this contract upgradeable? What proxy pattern does it use?
+```
+
+**Step 2: Check upgrade history**
+
+```
+Show me all previous implementations of this contract
+What changed in each upgrade?
+```
+
+**Step 3: Assess upgrade risks**
+
+```
+Who can upgrade this contract?
+Is there a timelock?
+```
+
+### Example: Proxy Analysis
+
+```
+Proxy Analysis: 0xProtocol...
+=============================
+
+Proxy Type: TransparentUpgradeableProxy
+Admin: 0xMultisig (3/5 Safe)
+Timelock: 48 hours
+
+Implementation History:
+┌──────────────┬────────────────┬─────────────────────┐
+│ Version      │ Date           │ Key Changes         │
+├──────────────┼────────────────┼─────────────────────┤
+│ v1.0.0       │ 2023-01-15     │ Initial deployment  │
+│ v1.1.0       │ 2023-03-22     │ Gas optimizations   │
+│ v1.2.0       │ 2023-06-10     │ Added flash loans   │
+│ v2.0.0       │ 2023-09-01     │ Major refactor      │
+└──────────────┴────────────────┴─────────────────────┘
+
+Current Implementation: 0xImpl...
+Verified: Yes
+
+Risk Assessment:
+- Upgrade authority: Multisig (GOOD)
+- Timelock: 48 hours (GOOD)
+- Frequency: Quarterly (NORMAL)
+- Change severity: Medium
+```
+
+## Comparing Forks
+
+### Analyzing Protocol Forks
+
+```
+Compare this contract to the original Uniswap V2 code.
+What modifications were made?
+```
+
+### Example: Fork Analysis
+
+```
+Fork Analysis: 0xNewDEX...
+==========================
+
+Base: Uniswap V2 Router
+Modifications Found:
+
+1. Added Fee on Swap (NEW)
+   └─ 0.1% protocol fee on all swaps
+   └─ Fee goes to: 0xTeam...
+
+2. Modified Slippage Check (CHANGED)
+   └─ Original: require(amountOut >= amountOutMin)
+   └─ Modified: require(amountOut >= amountOutMin * 99 / 100)
+   └─ CONCERN: Users may receive less than expected
+
+3. Added Pause Functionality (NEW)
+   └─ Owner can pause all swaps
+   └─ CONCERN: Centralization risk
+
+4. Removed Factory Restrictions (REMOVED)
+   └─ Anyone can create pools
+   └─ CONCERN: Potential for malicious pools
+```
+
+## Security Research Workflow
+
+### Complete Audit Process
+
+1. **Initial Overview**
+   ```
+   Give me a complete overview of contract 0x...
+   ```
+
+2. **Identify Entry Points**
+   ```
+   What external functions can users call?
+   ```
+
+3. **Check Access Control**
+   ```
+   What can the owner/admin do?
+   ```
+
+4. **Analyze Token Flows**
+   ```
+   How do tokens move in and out of this contract?
+   ```
+
+5. **Look for Known Vulnerabilities**
+   ```
+   Check for: reentrancy, overflow, access control issues
+   ```
+
+6. **Review Recent Activity**
+   ```
+   Show me recent unusual transactions with this contract
+   ```
+
+## Tips for Security Research
+
+<Tip>
+**Always check verification.** Unverified contracts are inherently suspicious.
+</Tip>
+
+<Tip>
+**Compare to known implementations.** Many contracts fork from established projects.
+</Tip>
+
+<Tip>
+**Check who's interacting.** Recent transactions reveal how the contract is actually being used.
+</Tip>
+
+<Tip>
+**Look at the deployer.** The deployer wallet often reveals the team and other projects.
+</Tip>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Wallet Investigation" icon="magnifying-glass" href="/examples/wallet-investigation">
+    Track suspicious wallets
+  </Card>
+  <Card title="DeFi Analysis" icon="chart-line" href="/examples/defi-analysis">
+    Understand DeFi protocols
+  </Card>
+</CardGroup>

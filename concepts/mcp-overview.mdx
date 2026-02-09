@@ -1,0 +1,117 @@
+---
+title: What is Herd MCP?
+description: "Understanding the Model Context Protocol and how it powers Herd"
+---
+
+# Understanding MCP (Model Context Protocol)
+
+MCP is the technology that allows Claude to connect to external tools and data sources like Herd. This page explains how it works and why it matters.
+
+## The Basics
+
+Think of MCP as a universal adapter that lets AI assistants like Claude plug into different services. Without MCP, Claude can only use its training data. With MCP, Claude can:
+
+- Access real-time data
+- Use specialized tools
+- Interact with external systems
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Claude    │────▶│     MCP     │────▶│    Herd     │
+│    Code     │◀────│   Protocol  │◀────│     API     │
+└─────────────┘     └─────────────┘     └─────────────┘
+     You ask          Translates          Fetches
+   a question         the request         the data
+```
+
+## How Claude Uses Herd Tools
+
+When you ask Claude a blockchain question, here's what happens:
+
+<Steps>
+  <Step title="You Ask a Question">
+    "What happened in this transaction?"
+  </Step>
+  <Step title="Claude Analyzes the Request">
+    Claude determines this requires transaction data and selects the `queryTransactionTool`.
+  </Step>
+  <Step title="Tool Execution">
+    Herd MCP fetches the transaction data, decodes it, and returns structured information.
+  </Step>
+  <Step title="Claude Explains">
+    Claude takes the raw data and explains it in human-readable terms.
+  </Step>
+</Steps>
+
+## Tool Selection
+
+Claude automatically picks the right tool based on your question:
+
+| You Ask About | Claude Uses |
+|---------------|-------------|
+| Contract code, ABI, what a contract does | `contractMetadataTool`, `regexCodeAnalysisTool` |
+| What happened in a transaction | `queryTransactionTool` |
+| Wallet balances, holdings | `getWalletOverviewTool` |
+| Token transfers, history | `getTokenActivityTool` |
+| Contract upgrades | `diffContractVersions` |
+| Recent activity | `getLatestTransactionsTool`, `getTransactionActivityTool` |
+| Contract deployments | `getDeployedContractsTool` |
+
+## The Power of Natural Language
+
+Instead of writing code like this:
+
+```javascript
+const provider = new ethers.JsonRpcProvider(RPC_URL);
+const contract = new ethers.Contract(address, abi, provider);
+const tx = await provider.getTransaction(txHash);
+const receipt = await provider.getTransactionReceipt(txHash);
+const decoded = contract.interface.parseTransaction({ data: tx.data });
+// ... more code to decode logs, traces, etc.
+```
+
+You just ask:
+
+<Note>
+"Decode transaction 0x123... and explain what it did"
+</Note>
+
+Claude handles all the complexity behind the scenes.
+
+## Limitations to Understand
+
+MCP is powerful but has some constraints:
+
+<Warning>
+**Rate Limits** - Each tool call uses your API quota. Complex analysis may require multiple calls.
+</Warning>
+
+<Warning>
+**Supported Chains** - Currently limited to Ethereum and Base. Other chains coming soon.
+</Warning>
+
+<Warning>
+**Verified Contracts Only** - Code analysis only works on verified contracts (those with source code published to Etherscan/Basescan).
+</Warning>
+
+## Security Model
+
+Your Herd API key is stored locally in your Claude Code configuration. When you make a request:
+
+1. The request goes directly from your machine to Herd's API
+2. Herd processes the request using your API key
+3. Results come back to Claude Code
+4. Claude analyzes and presents the results
+
+Your API key is never shared with Anthropic or stored anywhere other than your local machine.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Supported Chains" icon="link" href="/concepts/supported-chains">
+    Learn about supported blockchains
+  </Card>
+  <Card title="Contract Tools" icon="code" href="/tools/contract-metadata">
+    Start analyzing contracts
+  </Card>
+</CardGroup>

@@ -1,0 +1,112 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Herd MCP Documentation",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#6366f1",
+    "light": "#818cf8",
+    "dark": "#4f46e5",
+    "anchors": {
+      "from": "#6366f1",
+      "to": "#8b5cf6"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "Herd Platform",
+      "url": "https://herd.eco"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Get API Key",
+    "url": "https://herd.eco"
+  },
+  "tabs": [
+    {
+      "name": "Documentation",
+      "url": "/"
+    },
+    {
+      "name": "Examples",
+      "url": "/examples"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "API Reference",
+      "icon": "code",
+      "url": "/api-reference"
+    },
+    {
+      "name": "GitHub",
+      "icon": "github",
+      "url": "https://github.com/herd-eco"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Getting Started",
+      "pages": [
+        "introduction",
+        "quickstart",
+        "setup"
+      ]
+    },
+    {
+      "group": "Core Concepts",
+      "pages": [
+        "concepts/mcp-overview",
+        "concepts/supported-chains"
+      ]
+    },
+    {
+      "group": "Contract Analysis",
+      "pages": [
+        "tools/contract-metadata",
+        "tools/code-analysis",
+        "tools/diff-versions"
+      ]
+    },
+    {
+      "group": "Transaction Analysis",
+      "pages": [
+        "tools/query-transaction",
+        "tools/latest-transactions",
+        "tools/transaction-activity"
+      ]
+    },
+    {
+      "group": "Wallet & Tokens",
+      "pages": [
+        "tools/wallet-overview",
+        "tools/token-activity",
+        "tools/deployed-contracts"
+      ]
+    },
+    {
+      "group": "Examples & Use Cases",
+      "pages": [
+        "examples/index",
+        "examples/defi-analysis",
+        "examples/security-research",
+        "examples/wallet-investigation"
+      ]
+    },
+    {
+      "group": "Reference",
+      "pages": [
+        "reference/quick-reference",
+        "reference/troubleshooting",
+        "reference/faq"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "twitter": "https://twitter.com/haboraai",
+    "github": "https://github.com/herd-eco"
+  }
+}

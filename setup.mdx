@@ -1,0 +1,217 @@
+---
+title: Setup Guide
+description: "Detailed instructions for setting up Herd MCP with Claude Code"
+---
+
+# Detailed Setup Guide
+
+This guide covers everything you need to know about setting up and configuring Herd MCP with Claude Code.
+
+## Prerequisites
+
+### 1. Install Claude Code
+
+If you haven't already, install Claude Code:
+
+<Tabs>
+  <Tab title="macOS">
+    ```bash
+    brew install claude-code
+    ```
+
+    Or download directly from [claude.ai/claude-code](https://claude.ai/claude-code)
+  </Tab>
+  <Tab title="Linux">
+    ```bash
+    curl -fsSL https://claude.ai/install.sh | sh
+    ```
+  </Tab>
+  <Tab title="Windows">
+    Download the installer from [claude.ai/claude-code](https://claude.ai/claude-code)
+  </Tab>
+</Tabs>
+
+Verify installation:
+
+```bash
+claude --version
+```
+
+### 2. Get Your Herd API Key
+
+1. Go to [herd.eco](https://herd.eco)
+2. Create an account or sign in
+3. Navigate to your dashboard
+4. Copy your API key
+
+<Warning>
+Keep your API key secure. Never commit it to version control or share it publicly.
+</Warning>
+
+## Adding Herd MCP
+
+### Basic Setup
+
+Run this command to add Herd MCP to Claude Code:
+
+```bash
+claude mcp add --transport http herd https://api.herd.eco/v1/mcp --header "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Understanding the Command
+
+Let's break down what each part means:
+
+| Part | Description |
+|------|-------------|
+| `claude mcp add` | Add a new MCP server to Claude Code |
+| `--transport http` | Use HTTP transport (required for Herd) |
+| `herd` | The name you'll use to reference this MCP |
+| `https://api.herd.eco/v1/mcp` | The Herd MCP endpoint URL |
+| `--header "Authorization: Bearer ..."` | Your authentication header |
+
+### Verify Setup
+
+Check that Herd MCP is configured:
+
+```bash
+claude mcp list
+```
+
+You should see `herd` in the list of configured MCP servers.
+
+## Configuration Options
+
+### Environment Variables
+
+You can store your API key as an environment variable for security:
+
+```bash
+# Add to your ~/.bashrc, ~/.zshrc, or equivalent
+export HERD_API_KEY="your_api_key_here"
+```
+
+Then use it in the command:
+
+```bash
+claude mcp add --transport http herd https://api.herd.eco/v1/mcp --header "Authorization: Bearer $HERD_API_KEY"
+```
+
+### Multiple Configurations
+
+If you have different API keys for different projects:
+
+```bash
+# Personal use
+claude mcp add --transport http herd-personal https://api.herd.eco/v1/mcp --header "Authorization: Bearer $HERD_PERSONAL_KEY"
+
+# Work projects
+claude mcp add --transport http herd-work https://api.herd.eco/v1/mcp --header "Authorization: Bearer $HERD_WORK_KEY"
+```
+
+## Removing Herd MCP
+
+If you need to remove or reconfigure:
+
+```bash
+claude mcp remove herd
+```
+
+## Testing the Connection
+
+Start Claude Code and run a simple test:
+
+```
+What's the current block on Ethereum?
+```
+
+Or try analyzing a well-known contract:
+
+```
+Give me metadata for the WETH contract: 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2
+```
+
+## Available Tools After Setup
+
+Once configured, Claude Code will have access to these Herd tools:
+
+<AccordionGroup>
+  <Accordion title="contractMetadataTool">
+    Fetch comprehensive contract information including ABI, deployment history, and token details.
+  </Accordion>
+
+  <Accordion title="regexCodeAnalysisTool">
+    Search and analyze smart contract source code using AI-generated patterns.
+  </Accordion>
+
+  <Accordion title="diffContractVersions">
+    Compare code changes between different versions of a contract (for upgradeable proxies).
+  </Accordion>
+
+  <Accordion title="queryTransactionTool">
+    Decode and analyze transaction data including traces, logs, and balance changes.
+  </Accordion>
+
+  <Accordion title="getLatestTransactionsTool">
+    Fetch recent transactions that called specific functions or emitted specific events.
+  </Accordion>
+
+  <Accordion title="getWalletOverviewTool">
+    Get comprehensive wallet information including type detection, balances, and activity.
+  </Accordion>
+
+  <Accordion title="getTokenActivityTool">
+    Track token balance and transfer history for any address.
+  </Accordion>
+
+  <Accordion title="getTransactionActivityTool">
+    Get enriched transaction history for an address.
+  </Accordion>
+
+  <Accordion title="getDeployedContractsTool">
+    List all contracts deployed by a specific address.
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="'MCP not found' error">
+    Make sure you spelled the MCP name correctly. Run `claude mcp list` to see configured MCPs.
+  </Accordion>
+
+  <Accordion title="Authentication errors">
+    Double-check your API key. Make sure there are no extra spaces or quotes. Try regenerating your key in the Herd dashboard.
+  </Accordion>
+
+  <Accordion title="Connection timeout">
+    Check your internet connection. The Herd API requires an active internet connection.
+  </Accordion>
+
+  <Accordion title="Tool not responding">
+    Try removing and re-adding the MCP:
+    ```bash
+    claude mcp remove herd
+    claude mcp add --transport http herd https://api.herd.eco/v1/mcp --header "Authorization: Bearer YOUR_API_KEY"
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+Now that you're set up, explore what you can do:
+
+<CardGroup cols={2}>
+  <Card title="Contract Analysis" icon="code" href="/tools/contract-metadata">
+    Learn to analyze smart contracts
+  </Card>
+  <Card title="Transaction Decoding" icon="receipt" href="/tools/query-transaction">
+    Master transaction analysis
+  </Card>
+  <Card title="Wallet Investigation" icon="wallet" href="/tools/wallet-overview">
+    Investigate any wallet
+  </Card>
+  <Card title="Examples" icon="book" href="/examples">
+    See real-world use cases
+  </Card>
+</CardGroup>

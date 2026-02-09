@@ -1,0 +1,200 @@
+---
+title: Code Analysis
+description: "Search and analyze smart contract source code with AI-powered pattern matching"
+---
+
+# Code Analysis Tool
+
+The `regexCodeAnalysisTool` lets you search through smart contract source code using natural language. It's like having a powerful code search that understands what you're looking for.
+
+## What It Does
+
+- Searches verified contract source code
+- Uses AI-generated regex patterns based on your query
+- Finds specific functions, patterns, or behaviors
+- Can return all code or filtered results
+
+## How to Use It
+
+Ask Claude to find specific things in contract code:
+
+```
+Find all functions that can transfer tokens in the USDC contract
+```
+
+```
+Show me the access control logic in this contract
+```
+
+```
+What modifiers does this contract use?
+```
+
+## Parameters
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `query` | Yes | What you're searching for |
+| `contractAddresses` | Yes | Array of contract addresses to search |
+| `includeProxies` | No | Search proxy code instead of implementation (default: false) |
+| `returnAllCode` | No | Return all code without filtering (default: false) |
+
+## Example Queries
+
+### Finding Specific Functions
+
+**You:** "Find all mint functions in contract 0x..."
+
+**Claude will:**
+1. Generate regex patterns to match mint-related functions
+2. Search the contract source code
+3. Return matching code snippets with context
+
+### Understanding Access Control
+
+**You:** "How is admin access controlled in this contract?"
+
+**Claude will search for:**
+- `onlyOwner` modifiers
+- Role-based access patterns
+- Admin/owner state variables
+- Access control function calls
+
+### Security Analysis
+
+**You:** "Are there any functions that can pause this contract?"
+
+**Claude will find:**
+- Pause/unpause functions
+- Emergency stop patterns
+- Circuit breaker implementations
+
+## Practical Examples
+
+### Example 1: Finding Fee Logic
+
+**You:** "Show me how fees are calculated in the Uniswap V3 swap function"
+
+**Result:**
+```solidity
+// From SwapRouter.sol
+function exactInputSingle(ExactInputSingleParams calldata params)
+    external
+    payable
+    override
+    returns (uint256 amountOut)
+{
+    amountOut = exactInputInternal(
+        params.amountIn,
+        params.recipient,
+        params.sqrtPriceLimitX96,
+        SwapCallbackData({
+            path: abi.encodePacked(params.tokenIn, params.fee, params.tokenOut),
+            payer: msg.sender
+        })
+    );
+    // Fee is encoded in the path...
+}
+```
+
+### Example 2: Checking for Dangerous Patterns
+
+**You:** "Does this contract have any selfdestruct or delegatecall?"
+
+**Result:**
+```
+Found 0 matches for 'selfdestruct'
+Found 1 match for 'delegatecall':
+
+Line 245: (bool success, ) = implementation.delegatecall(data);
+Context: This is the standard proxy pattern delegatecall,
+which is expected and safe in this context.
+```
+
+### Example 3: Understanding State Variables
+
+**You:** "What are the main state variables in this contract?"
+
+**Result:**
+```solidity
+// Storage variables found:
+mapping(address => uint256) private _balances;
+mapping(address => mapping(address => uint256)) private _allowances;
+uint256 private _totalSupply;
+string private _name;
+string private _symbol;
+address public owner;
+bool public paused;
+```
+
+## Using returnAllCode
+
+When you need the complete source:
+
+**You:** "Show me all the code for contract 0x..."
+
+Claude will use `returnAllCode: true` and return the full source code, which is useful for:
+- Complete code review
+- Understanding the full context
+- Finding patterns that span multiple functions
+
+## Searching Multiple Contracts
+
+You can search across multiple contracts at once:
+
+**You:** "Find how 'swap' is implemented across these three DEX contracts: [addresses]"
+
+Claude will search all provided contracts and compare implementations.
+
+## Tips for Effective Searches
+
+<Tip>
+**Be specific about what you're looking for.** "Find the withdraw function" is better than "find withdrawal logic".
+</Tip>
+
+<Tip>
+**Mention the behavior, not just the name.** "Find functions that can move user funds" captures more than "find transfer".
+</Tip>
+
+<Tip>
+**Ask about patterns.** "Does this use the checks-effects-interactions pattern?" or "Is there reentrancy protection?"
+</Tip>
+
+## Common Search Queries
+
+| What You Want | How to Ask |
+|---------------|------------|
+| Admin functions | "Find all functions with onlyOwner or admin access" |
+| Token transfers | "Show me functions that transfer or move tokens" |
+| External calls | "Find all external contract calls" |
+| Events | "What events does this contract emit?" |
+| Modifiers | "List all modifiers in this contract" |
+| Constructor | "Show me the constructor and initialization logic" |
+| Upgrade logic | "How does this contract handle upgrades?" |
+
+## Limitations
+
+<Warning>
+**Only works on verified contracts.** Unverified contracts don't have source code available.
+</Warning>
+
+<Warning>
+**Large contracts may be truncated.** Very large codebases might not return complete results in a single query.
+</Warning>
+
+## Combining with Other Tools
+
+1. **Get overview first** → `contractMetadataTool`
+2. **Search specific code** → `regexCodeAnalysisTool`
+3. **Check how it's used** → `getLatestTransactionsTool`
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Contract Metadata" icon="file-code" href="/tools/contract-metadata">
+    Get contract overview first
+  </Card>
+  <Card title="Version Diffs" icon="code-compare" href="/tools/diff-versions">
+    Compare contract versions
+  </Card>
+</CardGroup>

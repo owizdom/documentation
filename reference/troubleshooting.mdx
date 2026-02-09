@@ -1,0 +1,239 @@
+---
+title: Troubleshooting
+description: "Solutions to common issues with Herd MCP"
+---
+
+# Troubleshooting Guide
+
+Having issues? Find solutions to common problems here.
+
+## Connection Issues
+
+### "MCP not found" or "Tool not available"
+
+**Symptoms:**
+- Claude says it doesn't have access to Herd tools
+- MCP commands fail
+
+**Solutions:**
+
+1. **Verify MCP is configured:**
+   ```bash
+   claude mcp list
+   ```
+   You should see `herd` in the list.
+
+2. **Re-add the MCP:**
+   ```bash
+   claude mcp remove herd
+   claude mcp add --transport http herd https://api.herd.eco/v1/mcp --header "Authorization: Bearer YOUR_API_KEY"
+   ```
+
+3. **Check your API key:**
+   - Make sure there are no extra spaces
+   - Verify the key is active in your Herd dashboard
+
+### "Authentication failed" or "Invalid API key"
+
+**Symptoms:**
+- 401 or 403 errors
+- "Unauthorized" messages
+
+**Solutions:**
+
+1. **Verify your API key:**
+   - Log into [herd.eco](https://herd.eco)
+   - Check that your key is active
+   - Try regenerating the key
+
+2. **Check header format:**
+   ```bash
+   --header "Authorization: Bearer YOUR_KEY"
+   ```
+   Make sure "Bearer" is capitalized and there's a space after it.
+
+3. **Check for special characters:**
+   - If your key has special characters, ensure proper quoting
+   - Try escaping quotes if needed
+
+### "Connection timeout"
+
+**Symptoms:**
+- Requests hang and eventually fail
+- Slow responses
+
+**Solutions:**
+
+1. **Check internet connection**
+2. **Try again later** - The API might be experiencing high load
+3. **Check Herd status page** for any outages
+
+## Data Issues
+
+### "Contract not found"
+
+**Symptoms:**
+- Error when querying a contract
+- Empty results
+
+**Solutions:**
+
+1. **Verify the address:**
+   - Check for typos
+   - Ensure it's a valid 0x address (42 characters)
+
+2. **Check the chain:**
+   - Specify "on Base" if it's a Base contract
+   - Default is Ethereum
+
+3. **Contract might not exist:**
+   - Verify on Etherscan/Basescan
+
+### "No source code available"
+
+**Symptoms:**
+- Can get metadata but not code
+- "Contract not verified" messages
+
+**Explanation:**
+The contract source code hasn't been published to Etherscan/Basescan.
+
+**What you can still do:**
+- View transaction history
+- Check balance changes
+- See event logs
+- Get basic metadata
+
+**What you can't do:**
+- Search source code
+- Understand function logic
+- Compare versions
+
+### "Transaction not found"
+
+**Symptoms:**
+- Error when querying a transaction
+- Empty results
+
+**Solutions:**
+
+1. **Verify the hash:**
+   - Should be 66 characters (0x + 64 hex)
+   - Check for typos
+
+2. **Wait for confirmation:**
+   - Pending transactions can't be analyzed
+   - Wait for the transaction to be mined
+
+3. **Check the chain:**
+   - Specify the correct blockchain
+
+### Incomplete or missing data
+
+**Symptoms:**
+- Some fields are empty
+- Partial results
+
+**Possible causes:**
+
+1. **Unverified contracts** - Limited data available
+2. **Very old transactions** - Historical data may be limited
+3. **Complex transactions** - May require multiple queries
+
+## Tool-Specific Issues
+
+### contractMetadataTool
+
+| Issue | Solution |
+|-------|----------|
+| No ABI returned | Contract not verified |
+| No token data | Not an ERC-20 token |
+| No proxy info | Not an upgradeable contract |
+
+### regexCodeAnalysisTool
+
+| Issue | Solution |
+|-------|----------|
+| No matches | Try different search terms |
+| Too many matches | Make query more specific |
+| Truncated results | Search for specific patterns |
+
+### queryTransactionTool
+
+| Issue | Solution |
+|-------|----------|
+| No balance changes | Filter might be too restrictive |
+| Missing traces | Use `returnAllData: true` |
+| Incomplete decode | Contract not verified |
+
+### getWalletOverviewTool
+
+| Issue | Solution |
+|-------|----------|
+| $0 values | Token prices not available |
+| Missing tokens | May not track all tokens |
+| Wrong wallet type | Detection limitations |
+
+## Rate Limits
+
+### "Rate limit exceeded"
+
+**Symptoms:**
+- 429 errors
+- "Too many requests" messages
+
+**Solutions:**
+
+1. **Wait and retry:**
+   - Rate limits reset over time
+   - Wait a few seconds/minutes
+
+2. **Reduce query frequency:**
+   - Batch questions where possible
+   - Avoid rapid-fire queries
+
+3. **Upgrade your plan:**
+   - Higher tiers have higher limits
+   - Check [herd.eco](https://herd.eco) for options
+
+## Performance Issues
+
+### Slow responses
+
+**Possible causes:**
+
+1. **Complex queries** - Multi-contract searches take longer
+2. **Large results** - Full code returns are slower
+3. **API load** - High traffic periods
+
+**Solutions:**
+
+1. Be more specific in queries
+2. Use filtering options
+3. Try during off-peak hours
+
+## Getting Help
+
+### If nothing works:
+
+1. **Check the Herd status page** for outages
+2. **Search existing issues** on GitHub
+3. **Join the Discord** for community help
+4. **Contact support** through [herd.eco](https://herd.eco)
+
+### When reporting issues, include:
+
+- The exact query you made
+- The error message (if any)
+- The contract/transaction address
+- The chain (Ethereum or Base)
+
+## Quick Fixes Checklist
+
+<Check>API key is correct and active</Check>
+<Check>MCP is configured (`claude mcp list`)</Check>
+<Check>Address format is correct (0x...)</Check>
+<Check>Correct chain specified</Check>
+<Check>Contract is verified (for code analysis)</Check>
+<Check>Transaction is confirmed (not pending)</Check>
+<Check>Internet connection is working</Check>

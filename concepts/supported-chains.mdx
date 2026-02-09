@@ -1,0 +1,121 @@
+---
+title: Supported Chains
+description: "Blockchains supported by Herd MCP"
+---
+
+# Supported Blockchains
+
+Herd MCP currently supports analysis on the following blockchain networks.
+
+## Currently Supported
+
+### Ethereum Mainnet
+
+<Card title="Ethereum" icon="ethereum">
+  The original smart contract platform. Full support for all Herd tools.
+</Card>
+
+**Network Details:**
+- Chain ID: 1
+- Native Token: ETH
+- Block Explorer: [Etherscan](https://etherscan.io)
+
+**What you can do:**
+- Analyze any verified contract
+- Decode any transaction
+- Track any wallet or token
+- View contract upgrade history
+
+### Base
+
+<Card title="Base" icon="circle-b">
+  Coinbase's Layer 2 network built on Optimism. Full support for all Herd tools.
+</Card>
+
+**Network Details:**
+- Chain ID: 8453
+- Native Token: ETH
+- Block Explorer: [Basescan](https://basescan.org)
+
+**What you can do:**
+- Analyze any verified contract
+- Decode any transaction
+- Track any wallet or token
+- View contract upgrade history
+
+## Specifying the Chain
+
+Most Herd tools default to Ethereum. To analyze something on Base, just mention it:
+
+```
+Analyze the contract 0x... on Base
+```
+
+Or be explicit:
+
+```
+Use the Base blockchain to check wallet 0x...
+```
+
+Claude will pass the correct `blockchain` parameter to Herd.
+
+## Chain-Specific Considerations
+
+### Address Format
+
+Both Ethereum and Base use the same address format (0x followed by 40 hex characters). The same address can exist on both chains but may be completely different contracts or wallets.
+
+<Warning>
+Always specify which chain you mean if the context isn't clear. The address 0x1234... on Ethereum is not the same as 0x1234... on Base.
+</Warning>
+
+### Contract Verification
+
+For code analysis to work, contracts must be verified on the respective block explorer:
+- Ethereum: Verified on [Etherscan](https://etherscan.io)
+- Base: Verified on [Basescan](https://basescan.org)
+
+Unverified contracts can still be analyzed for:
+- Transaction history
+- Balance changes
+- Event logs
+- Basic metadata
+
+But source code analysis requires verification.
+
+### Cross-Chain Analysis
+
+You can analyze related contracts across chains:
+
+```
+Compare the Uniswap V3 Router contract on Ethereum vs Base
+```
+
+Claude will make separate calls for each chain and compare the results.
+
+## Coming Soon
+
+The following chains are planned for future support:
+
+| Chain | Status |
+|-------|--------|
+| Arbitrum | Planned |
+| Optimism | Planned |
+| Polygon | Planned |
+| BNB Chain | Under Consideration |
+| Avalanche | Under Consideration |
+
+## Requesting New Chains
+
+If you need support for a specific chain, reach out to the Herd team through their website or community channels.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Contract Analysis" icon="code" href="/tools/contract-metadata">
+    Start analyzing contracts
+  </Card>
+  <Card title="Examples" icon="book" href="/examples">
+    See real-world examples on different chains
+  </Card>
+</CardGroup>

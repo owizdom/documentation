@@ -1,0 +1,116 @@
+---
+title: Quickstart
+description: "Get started with Herd MCP in under 2 minutes"
+---
+
+# Quickstart Guide
+
+This guide will get you up and running with Herd MCP in just a few steps.
+
+## Prerequisites
+
+Before you begin, make sure you have:
+
+<Check>Claude Code installed on your machine</Check>
+<Check>A Herd API key (get one at [herd.eco](https://herd.eco))</Check>
+
+## Step 1: Add Herd MCP to Claude Code
+
+Open your terminal and run:
+
+```bash
+claude mcp add --transport http herd https://api.herd.eco/v1/mcp --header "Authorization: Bearer YOUR_API_KEY"
+```
+
+<Warning>
+Replace `YOUR_API_KEY` with your actual Herd API key. Never share your API key publicly.
+</Warning>
+
+## Step 2: Verify the Connection
+
+Start Claude Code and ask:
+
+```
+What tools do you have access to from Herd?
+```
+
+Claude should respond with a list of available tools including:
+- `contractMetadataTool`
+- `regexCodeAnalysisTool`
+- `queryTransactionTool`
+- And more...
+
+## Step 3: Try Your First Query
+
+Let's analyze a real smart contract. Ask Claude:
+
+```
+What is the USDC contract on Ethereum? Give me an overview.
+```
+
+Claude will use the `contractMetadataTool` to fetch information about the USDC contract and explain it to you.
+
+## That's it!
+
+You're now ready to explore the blockchain with Claude. Here are some things you can try:
+
+### Analyze a Contract
+
+```
+Explain what the deposit function does in the Aave V3 Pool contract
+```
+
+### Decode a Transaction
+
+```
+What happened in transaction 0x1234...? (paste a real tx hash)
+```
+
+### Check a Wallet
+
+```
+What tokens does 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045 hold?
+```
+
+### Search Contract Code
+
+```
+Find all functions that use "onlyOwner" modifier in contract 0x...
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Detailed Setup" icon="gear" href="/setup">
+    Advanced configuration options
+  </Card>
+  <Card title="Contract Analysis" icon="code" href="/tools/contract-metadata">
+    Deep dive into contract tools
+  </Card>
+  <Card title="Transaction Analysis" icon="receipt" href="/tools/query-transaction">
+    Learn to decode any transaction
+  </Card>
+  <Card title="Examples" icon="book" href="/examples">
+    Real-world use cases and tutorials
+  </Card>
+</CardGroup>
+
+## Common First Questions
+
+<AccordionGroup>
+  <Accordion title="How do I get an API key?">
+    Visit [herd.eco](https://herd.eco) and sign up for an account. Your API key will be available in your dashboard.
+  </Accordion>
+
+  <Accordion title="Is there a rate limit?">
+    Yes, rate limits depend on your plan. Free tier has generous limits for personal use. Check your dashboard for details.
+  </Accordion>
+
+  <Accordion title="Which chains are supported?">
+    Currently Ethereum and Base are fully supported. More chains are coming soon.
+  </Accordion>
+
+  <Accordion title="Can I use this for production applications?">
+    Herd MCP is designed for interactive use with Claude Code. For production applications, check out the Herd API directly.
+  </Accordion>
+</AccordionGroup>

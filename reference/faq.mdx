@@ -1,0 +1,215 @@
+---
+title: FAQ
+description: "Frequently asked questions about Herd MCP"
+---
+
+# Frequently Asked Questions
+
+## General Questions
+
+<AccordionGroup>
+  <Accordion title="What is Herd MCP?">
+    Herd MCP is an integration that connects Claude Code to blockchain data and smart contract analysis tools. It allows you to analyze contracts, decode transactions, and investigate wallets using natural language.
+  </Accordion>
+
+  <Accordion title="What chains are supported?">
+    Currently, Herd MCP supports:
+    - **Ethereum Mainnet**
+    - **Base**
+
+    More chains are planned for the future.
+  </Accordion>
+
+  <Accordion title="Is Herd MCP free?">
+    Herd offers both free and paid tiers. The free tier has generous limits for personal use. Check [herd.eco](https://herd.eco) for current pricing and limits.
+  </Accordion>
+
+  <Accordion title="How do I get an API key?">
+    1. Visit [herd.eco](https://herd.eco)
+    2. Create an account
+    3. Navigate to your dashboard
+    4. Copy your API key
+  </Accordion>
+
+  <Accordion title="Is my API key secure?">
+    Your API key is stored locally in your Claude Code configuration. It's sent directly to Herd's servers and is never shared with Anthropic or stored anywhere else.
+  </Accordion>
+</AccordionGroup>
+
+## Technical Questions
+
+<AccordionGroup>
+  <Accordion title="Can I analyze unverified contracts?">
+    Partially. For unverified contracts, you can still:
+    - View transaction history
+    - Check balance changes
+    - See event logs
+    - Get basic metadata
+
+    However, you cannot:
+    - Search source code
+    - Understand function logic
+    - Compare versions
+  </Accordion>
+
+  <Accordion title="How current is the data?">
+    Herd indexes blockchain data in near real-time. Most data is available within seconds of block confirmation. Historical data is available for the full chain history.
+  </Accordion>
+
+  <Accordion title="Can I analyze pending transactions?">
+    No, only confirmed (mined) transactions can be analyzed. Wait for the transaction to be included in a block before querying.
+  </Accordion>
+
+  <Accordion title="What's the rate limit?">
+    Rate limits depend on your plan:
+    - **Free tier**: Suitable for personal use
+    - **Paid tiers**: Higher limits for professional use
+
+    Check your dashboard for specific limits.
+  </Accordion>
+
+  <Accordion title="Can I use this for production applications?">
+    Herd MCP is designed for interactive use with Claude Code. For production applications, consider using the Herd API directly.
+  </Accordion>
+</AccordionGroup>
+
+## Usage Questions
+
+<AccordionGroup>
+  <Accordion title="How do I specify which chain to use?">
+    By default, queries use Ethereum. To use Base, simply mention it:
+    ```
+    Analyze contract 0x... on Base
+    ```
+    Or:
+    ```
+    Check wallet 0x... on Base
+    ```
+  </Accordion>
+
+  <Accordion title="Can I use ENS names instead of addresses?">
+    Yes! Claude can resolve ENS names:
+    ```
+    What tokens does vitalik.eth hold?
+    ```
+  </Accordion>
+
+  <Accordion title="How do I get more detailed results?">
+    Ask follow-up questions! Claude remembers context:
+    ```
+    What is contract 0x...?
+    [Claude responds]
+
+    Tell me more about the deposit function
+    [Claude drills deeper]
+    ```
+  </Accordion>
+
+  <Accordion title="Can I analyze multiple contracts at once?">
+    Yes, you can ask Claude to compare or analyze multiple contracts:
+    ```
+    Compare the swap functions in these three DEX contracts:
+    0x..., 0x..., 0x...
+    ```
+  </Accordion>
+
+  <Accordion title="How do I export results?">
+    Claude Code outputs can be copied from the terminal. For structured exports, ask Claude to format the data:
+    ```
+    Give me this wallet's holdings in CSV format
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting Questions
+
+<AccordionGroup>
+  <Accordion title="Why isn't my API key working?">
+    Common causes:
+    1. Key has extra spaces
+    2. Key is inactive or expired
+    3. Header format is incorrect
+
+    Try regenerating your key and re-adding the MCP:
+    ```bash
+    claude mcp remove herd
+    claude mcp add --transport http herd https://api.herd.eco/v1/mcp --header "Authorization: Bearer NEW_KEY"
+    ```
+  </Accordion>
+
+  <Accordion title="Why is the contract showing no source code?">
+    The contract hasn't been verified on Etherscan/Basescan. Source code analysis only works with verified contracts. You can still analyze transactions and events.
+  </Accordion>
+
+  <Accordion title="Why are token values showing $0?">
+    Some tokens don't have price data available, especially:
+    - Very new tokens
+    - Low-liquidity tokens
+    - Non-fungible tokens with no floor price
+  </Accordion>
+
+  <Accordion title="Why is my query slow?">
+    Complex queries take longer:
+    - Searching across large codebases
+    - Returning full source code
+    - Analyzing complex multi-call transactions
+
+    Try being more specific to get faster results.
+  </Accordion>
+</AccordionGroup>
+
+## Feature Questions
+
+<AccordionGroup>
+  <Accordion title="Can I track NFTs?">
+    Yes! NFT transfers are tracked in token activity, and NFT holdings appear in wallet overviews (with floor prices where available).
+  </Accordion>
+
+  <Accordion title="Can I analyze flash loans?">
+    Yes! Flash loan transactions can be fully decoded showing:
+    - Borrow amounts
+    - What was done with the funds
+    - Repayment (or failure)
+    - Fees paid
+  </Accordion>
+
+  <Accordion title="Can I detect MEV/sandwich attacks?">
+    You can analyze the transactions involved, but automated MEV detection is limited. Ask Claude to check if a transaction was frontrun by examining surrounding blocks.
+  </Accordion>
+
+  <Accordion title="Can I get alerts for wallet activity?">
+    Herd MCP is for interactive analysis, not real-time alerts. For alerting, check Herd's main product offerings.
+  </Accordion>
+
+  <Accordion title="Can I analyze cross-chain transactions?">
+    You can analyze transactions on supported chains separately. Bridge transactions can be traced by analyzing both sides (source chain deposit and destination chain mint).
+  </Accordion>
+</AccordionGroup>
+
+## Comparison Questions
+
+<AccordionGroup>
+  <Accordion title="How is this different from Etherscan?">
+    Herd MCP with Claude provides:
+    - **Natural language interface** - Ask questions in plain English
+    - **Intelligent analysis** - Claude explains what it finds
+    - **Cross-referencing** - Combine data from multiple sources
+    - **Code search** - Search within contract code easily
+
+    Etherscan is still great for quick lookups and official verification.
+  </Accordion>
+
+  <Accordion title="How is this different from using the Herd website?">
+    Both use the same underlying data, but:
+    - **Herd website**: Visual interface, dashboards, saved searches
+    - **Herd MCP**: Natural language, AI-powered analysis, integrated with coding workflow
+
+    Use whichever fits your workflow better!
+  </Accordion>
+</AccordionGroup>
+
+## Still Have Questions?
+
+- Check the [Troubleshooting Guide](/reference/troubleshooting)
+- Join the community Discord
+- Contact support at [herd.eco](https://herd.eco)

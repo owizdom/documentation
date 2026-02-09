@@ -1,0 +1,199 @@
+---
+title: Quick Reference
+description: "Cheatsheet for all Herd MCP tools and common queries"
+---
+
+# Quick Reference Card
+
+A handy cheatsheet for using Herd MCP with Claude Code.
+
+## Tool Summary
+
+| Tool | Use For | Example Query |
+|------|---------|---------------|
+| `contractMetadataTool` | Contract info, ABI, tokens | "What is contract 0x...?" |
+| `regexCodeAnalysisTool` | Search contract code | "Find the transfer function" |
+| `diffContractVersions` | Compare upgrades | "What changed in the upgrade?" |
+| `queryTransactionTool` | Decode transactions | "What happened in tx 0x...?" |
+| `getLatestTransactionsTool` | Recent function/event calls | "Show recent swaps" |
+| `getTransactionActivityTool` | Address tx history | "What has 0x... been doing?" |
+| `getWalletOverviewTool` | Wallet profile | "Overview of 0x..." |
+| `getTokenActivityTool` | Token transfer history | "USDC history for 0x..." |
+| `getDeployedContractsTool` | Find deployments | "What contracts did 0x... deploy?" |
+
+## Common Queries
+
+### Contracts
+
+```
+# Get contract overview
+What is the contract at 0x...?
+
+# Check if upgradeable
+Is 0x... an upgradeable proxy?
+
+# Get ABI
+What functions does 0x... have?
+
+# Search code
+Find the swap function in 0x...
+
+# Compare versions
+What changed in the latest upgrade of 0x...?
+```
+
+### Transactions
+
+```
+# Basic decode
+What happened in transaction 0x...?
+
+# Detailed analysis
+Show me all balance changes in tx 0x...
+
+# Find specific transfers
+Show only USDC transfers in tx 0x...
+
+# Find function calls
+Show me recent deposit() calls on 0x...
+
+# Find events
+Show recent Transfer events from 0x...
+```
+
+### Wallets
+
+```
+# Full profile
+Give me an overview of 0x...
+
+# Check holdings
+What tokens does 0x... hold?
+
+# Transaction history
+Show recent transactions from 0x...
+
+# Token history
+Show USDC transfer history for 0x...
+
+# Deployments
+What contracts has 0x... deployed?
+```
+
+## Query Modifiers
+
+### Specifying Chain
+
+```
+# Default is Ethereum
+What is 0x...?
+
+# For Base
+What is 0x... on Base?
+```
+
+### Pagination
+
+```
+# First page (default)
+Show transactions for 0x...
+
+# Specific page
+Show page 3 of transactions for 0x...
+```
+
+### Filtering
+
+```
+# Filter balance changes
+Show only ETH transfers in tx 0x...
+
+# Filter by destination
+Show transactions from 0x... to Uniswap
+```
+
+## Address Types
+
+| Format | Example |
+|--------|---------|
+| Hex address | `0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48` |
+| ENS name | `vitalik.eth` |
+| Contract name | `Uniswap V3 Router` (if context is clear) |
+
+## Transaction Hash Format
+
+```
+0x followed by 64 hex characters
+Example: 0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef
+```
+
+## Common Contract Addresses
+
+### Ethereum
+
+| Protocol | Contract |
+|----------|----------|
+| USDC | `0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48` |
+| USDT | `0xdAC17F958D2ee523a2206206994597C13D831ec7` |
+| WETH | `0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2` |
+| Uniswap V3 Router | `0xE592427A0AEce92De3Edee1F18E0157C05861564` |
+| Aave V3 Pool | `0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2` |
+
+### Base
+
+| Protocol | Contract |
+|----------|----------|
+| USDC | `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913` |
+| Uniswap V3 Router | `0x2626664c2603336E57B271c5C0b26F421741e481` |
+
+## Wallet Types
+
+| Type | Description |
+|------|-------------|
+| EOA | Regular wallet (private key) |
+| Multisig | Multi-signature wallet (Safe) |
+| ERC-4337 | Smart contract wallet |
+| ERC-7702 | Delegated EOA |
+
+## Quick Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| "Contract not found" | Check address and chain |
+| "No source code" | Contract not verified |
+| "Transaction not found" | Check hash and wait for confirmation |
+| "Rate limit" | Wait and try again |
+
+## Keyboard Shortcuts (Claude Code)
+
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl+C` | Cancel current operation |
+| `Ctrl+L` | Clear screen |
+| `↑` / `↓` | Navigate history |
+
+## Best Practices
+
+<Tip>
+**Be specific** - "What does the swap function do?" is better than "explain this contract"
+</Tip>
+
+<Tip>
+**Mention the chain** - Always specify if you're working on Base
+</Tip>
+
+<Tip>
+**Use follow-ups** - Claude remembers context, drill deeper with follow-up questions
+</Tip>
+
+<Tip>
+**Start broad, then narrow** - Get overview first, then specific details
+</Tip>
+
+## Quick Links
+
+- [Full Setup Guide](/setup)
+- [Contract Tools](/tools/contract-metadata)
+- [Transaction Tools](/tools/query-transaction)
+- [Wallet Tools](/tools/wallet-overview)
+- [Examples](/examples)
