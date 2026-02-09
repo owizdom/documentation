@@ -1,22 +1,20 @@
 ---
 title: Deployed Contracts
-description: "Find all contracts deployed by a wallet or factory"
+description: "Find contracts deployed by a wallet or factory"
 ---
 
-# Deployed Contracts Tool
+# Deployed Contracts
 
-The `getDeployedContractsTool` lists all smart contracts deployed by a specific address. Works with EOA wallets, factory contracts, Safes, and any other deployer pattern.
+Lists contracts deployed by an address. Works with EOAs, factories, and Safes.
 
-## What It Does
+## Returns
 
-- Lists contracts deployed by an address
-- Handles multiple deployment patterns (direct, factory, Safe)
-- Shows deployment timestamps and transaction hashes
-- Supports pagination for prolific deployers
+- Deployed contract addresses and names
+- Deployment timestamps and tx hashes
+- Verification status
+- Paginated results (10 per page)
 
-## How to Use It
-
-Ask Claude about deployments:
+## Example Queries
 
 ```
 What contracts has 0x... deployed?
@@ -99,48 +97,22 @@ Page 1 of 1,246
 ...
 ```
 
-## Practical Examples
+## Use Cases
 
-### Example 1: Developer Portfolio
-
-**You:** "What contracts has this developer deployed?"
-
-**Claude returns:**
-- All deployed contracts
-- Contract names (if verified)
-- Deployment dates
-- Quick classification (token, NFT, DeFi, etc.)
-
-### Example 2: Factory Analysis
-
-**You:** "How many pools has Uniswap V3 factory created on Base?"
-
-**Claude shows:**
+**Developer portfolio:**
 ```
-Uniswap V3 Factory on Base:
-- Total pools: 3,456
-- Most recent: DEGEN/WETH (2 hours ago)
-- Busiest day: 234 pools on 2024-01-15
+What contracts has this developer deployed?
 ```
 
-### Example 3: Protocol Deployment History
+**Factory analysis:**
+```
+How many pools has Uniswap V3 factory created on Base?
+```
 
-**You:** "Show me all contracts deployed by the Aave team's deployer wallet"
-
-**Claude lists:**
-- Core protocol contracts
-- Peripheral contracts
-- Deployment order
-- Version history
-
-### Example 4: Finding Related Contracts
-
-**You:** "This scam token came from 0x... - what else did they deploy?"
-
-**Claude identifies:**
-- Other tokens from same deployer
-- Potential pattern of scam deployments
-- Related addresses
+**Scam investigation:**
+```
+This scam token came from 0x... - what else did they deploy?
+```
 
 ## Combining with Other Tools
 
@@ -174,15 +146,11 @@ For complete deployer analysis:
 ## Tips
 
 <Tip>
-**Check verification status.** Verified contracts are more trustworthy and easier to analyze.
+Check verification status—verified contracts are easier to analyze.
 </Tip>
 
 <Tip>
-**Look for patterns.** Multiple similar deployments might indicate a factory or serial behavior.
-</Tip>
-
-<Tip>
-**Follow the deployer.** The deployer wallet often reveals the team behind a protocol.
+Look for patterns. Multiple similar deployments indicate factory or serial behavior.
 </Tip>
 
 ## Pagination

@@ -1,15 +1,13 @@
 ---
 title: Contract Metadata
-description: "Get comprehensive information about any smart contract"
+description: "Fetch contract info, ABI, deployment history, and token data"
 ---
 
-# Contract Metadata Tool
+# Contract Metadata
 
-The `contractMetadataTool` is your starting point for understanding any smart contract. It provides comprehensive information about a contract including its code, ABI, deployment history, and token details if applicable.
+Returns contract information including ABI, proxy history, and token data.
 
-## What It Does
-
-This tool fetches:
+## Returns
 
 - **Basic Info** - Contract name, compiler version, verification status
 - **ABI** - Complete Application Binary Interface with function signatures
@@ -17,9 +15,7 @@ This tool fetches:
 - **Deployment History** - When and how the contract was deployed
 - **Token Details** - If it's a token: price, volume, market cap, holders (via CoinGecko)
 
-## How to Use It
-
-Simply ask Claude about any contract:
+## Example Queries
 
 ```
 What is the contract at 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48?
@@ -40,37 +36,15 @@ What functions does AAVE's lending pool have?
 | `contractAddress` | Yes | The contract address (0x...) |
 | `blockchain` | No | `ethereum` (default) or `base` |
 
-## Example Queries
+## Sample Output
 
-### Basic Contract Info
+For `0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2`:
 
-**You:** "What is contract 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2?"
-
-**Claude will return:**
 - Contract name: Wrapped Ether (WETH)
 - Verified: Yes
 - Compiler: Solidity 0.4.18
-- Functions: deposit, withdraw, approve, transfer, etc.
-- Token info: Current price, market cap, holders
-
-### Understanding a DeFi Protocol
-
-**You:** "Explain the main functions in the Compound cToken contract"
-
-**Claude will:**
-1. Fetch the contract metadata
-2. Parse the ABI to identify key functions
-3. Explain what each function does in plain English
-
-### Token Analysis
-
-**You:** "Tell me about the USDC token contract"
-
-**Claude will return:**
-- Contract details
-- Token metadata (symbol, decimals)
-- Current price and market data
-- Total supply and holder count
+- Functions: deposit, withdraw, approve, transfer
+- Token data: price, market cap, holders
 
 ## What You Get Back
 
@@ -127,44 +101,30 @@ Previous Implementations:
   - 0x5678... (original)
 ```
 
-## Working with Proxies
+## Proxy Support
 
-Many modern contracts use proxy patterns for upgradeability. The tool automatically:
+For upgradeable contracts, the tool:
 
-1. Detects if a contract is a proxy
-2. Identifies the current implementation
-3. Provides full implementation history
-4. Returns the implementation's ABI (what you actually interact with)
+1. Detects proxy type
+2. Identifies current implementation
+3. Returns implementation history
+4. Provides the implementation ABI
 
-**You:** "Is the USDC contract upgradeable?"
-
-**Claude will explain:**
-- Yes/No
-- What type of proxy pattern
-- Current implementation address
-- Who can upgrade it
-
-## Combining with Other Tools
-
-Contract metadata is often just the starting point:
+## Related Tools
 
 1. **Get overview** → `contractMetadataTool`
 2. **Search code** → `regexCodeAnalysisTool` for specific functions
 3. **Check upgrades** → `diffContractVersions` for change history
 4. **See usage** → `getLatestTransactionsTool` for recent activity
 
-## Tips for Better Results
+## Tips
 
 <Tip>
-**Be specific about what you want to know.** Instead of "tell me about this contract", try "what are the main functions in this contract and what do they do?"
+Be specific: "what are the main functions" is better than "tell me about this contract"
 </Tip>
 
 <Tip>
-**Mention the chain if not Ethereum.** Say "on Base" for Base contracts.
-</Tip>
-
-<Tip>
-**Ask follow-up questions.** After getting metadata, ask about specific functions or behaviors.
+Specify chain for non-Ethereum: "on Base"
 </Tip>
 
 ## Common Use Cases

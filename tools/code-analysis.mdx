@@ -1,22 +1,19 @@
 ---
 title: Code Analysis
-description: "Search and analyze smart contract source code with AI-powered pattern matching"
+description: "Search contract source code with AI-generated regex patterns"
 ---
 
-# Code Analysis Tool
+# Code Analysis
 
-The `regexCodeAnalysisTool` lets you search through smart contract source code using natural language. It's like having a powerful code search that understands what you're looking for.
+Searches verified contract source code using AI-generated regex patterns.
 
-## What It Does
+## Capabilities
 
-- Searches verified contract source code
-- Uses AI-generated regex patterns based on your query
-- Finds specific functions, patterns, or behaviors
-- Can return all code or filtered results
+- Search by natural language query
+- Find functions, patterns, or behaviors
+- Return filtered results or full code
 
-## How to Use It
-
-Ask Claude to find specific things in contract code:
+## Example Queries
 
 ```
 Find all functions that can transfer tokens in the USDC contract
@@ -39,35 +36,29 @@ What modifiers does this contract use?
 | `includeProxies` | No | Search proxy code instead of implementation (default: false) |
 | `returnAllCode` | No | Return all code without filtering (default: false) |
 
-## Example Queries
+## Usage Patterns
 
-### Finding Specific Functions
+### Finding Functions
 
-**You:** "Find all mint functions in contract 0x..."
+```
+Find all mint functions in contract 0x...
+```
 
-**Claude will:**
-1. Generate regex patterns to match mint-related functions
-2. Search the contract source code
-3. Return matching code snippets with context
+### Access Control
 
-### Understanding Access Control
+```
+How is admin access controlled in this contract?
+```
 
-**You:** "How is admin access controlled in this contract?"
+Searches for: `onlyOwner` modifiers, role-based patterns, admin state variables
 
-**Claude will search for:**
-- `onlyOwner` modifiers
-- Role-based access patterns
-- Admin/owner state variables
-- Access control function calls
+### Security Patterns
 
-### Security Analysis
+```
+Are there any functions that can pause this contract?
+```
 
-**You:** "Are there any functions that can pause this contract?"
-
-**Claude will find:**
-- Pause/unpause functions
-- Emergency stop patterns
-- Circuit breaker implementations
+Finds: pause/unpause functions, emergency stops, circuit breakers
 
 ## Practical Examples
 
@@ -127,37 +118,29 @@ address public owner;
 bool public paused;
 ```
 
-## Using returnAllCode
+## Full Code Retrieval
 
-When you need the complete source:
+Use `returnAllCode: true` to get complete source code for:
+- Full code review
+- Context around matches
+- Cross-function patterns
 
-**You:** "Show me all the code for contract 0x..."
+## Multi-Contract Search
 
-Claude will use `returnAllCode: true` and return the full source code, which is useful for:
-- Complete code review
-- Understanding the full context
-- Finding patterns that span multiple functions
+Search across multiple contracts simultaneously:
 
-## Searching Multiple Contracts
+```
+Find how 'swap' is implemented across these DEX contracts: [addresses]
+```
 
-You can search across multiple contracts at once:
-
-**You:** "Find how 'swap' is implemented across these three DEX contracts: [addresses]"
-
-Claude will search all provided contracts and compare implementations.
-
-## Tips for Effective Searches
+## Tips
 
 <Tip>
-**Be specific about what you're looking for.** "Find the withdraw function" is better than "find withdrawal logic".
+Be specific: "find the withdraw function" beats "find withdrawal logic"
 </Tip>
 
 <Tip>
-**Mention the behavior, not just the name.** "Find functions that can move user funds" captures more than "find transfer".
-</Tip>
-
-<Tip>
-**Ask about patterns.** "Does this use the checks-effects-interactions pattern?" or "Is there reentrancy protection?"
+Search by behavior: "functions that can move user funds" captures more than "find transfer"
 </Tip>
 
 ## Common Search Queries

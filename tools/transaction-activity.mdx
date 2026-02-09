@@ -1,23 +1,20 @@
 ---
 title: Transaction Activity
-description: "Get enriched transaction history for any address"
+description: "Enriched transaction history for any address"
 ---
 
-# Transaction Activity Tool
+# Transaction Activity
 
-The `getTransactionActivityTool` provides enriched transaction history for any address, showing function calls, balance changes, and contract creations.
+Returns transaction history with decoded function calls, balance changes, and contract creations.
 
-## What It Does
+## Returns
 
-- Fetches transaction history for an address
-- Shows function names and decoded parameters
-- Includes balance changes per transaction
-- Identifies contract creations
-- Supports pagination for full history
+- Function names and decoded parameters
+- Balance changes per transaction
+- Contract creations
+- Paginated history (10 per page)
 
-## How to Use It
-
-Ask Claude about an address's activity:
+## Example Queries
 
 ```
 Show me the recent transactions from 0x...
@@ -79,35 +76,22 @@ To see only interactions with a specific contract:
 
 This uses the `toAddress` parameter to filter results.
 
-## Practical Examples
+## Use Cases
 
-### Example 1: Wallet Investigation
+**Wallet investigation:**
+```
+What has this wallet been doing in the last week?
+```
 
-**You:** "What has this wallet been doing in the last week?"
+**Protocol usage:**
+```
+How does this user interact with Aave?
+```
 
-**Claude returns:**
-- Recent transactions with summaries
-- Protocols interacted with
-- Tokens moved
-- Total gas spent
-
-### Example 2: Protocol Usage Analysis
-
-**You:** "How does this user interact with Aave?"
-
-**Claude filters** transactions to Aave contracts and summarizes:
-- Deposits, withdrawals, borrows, repays
-- Total volume
-- Frequency of interactions
-
-### Example 3: Tracking a Trader
-
-**You:** "Show me the trading activity of this MEV bot"
-
-**Claude returns:**
-- Swap transactions
-- Arbitrage patterns
-- Profit/loss estimates
+**Trading analysis:**
+```
+Show me the trading activity of this MEV bot
+```
 
 ## Pagination
 
@@ -185,15 +169,11 @@ For comprehensive analysis:
 ## Tips
 
 <Tip>
-**Start with recent activity.** Page 1 shows the most recent transactions.
+Filter when possible—use `toAddress` to focus on specific protocols.
 </Tip>
 
 <Tip>
-**Filter when possible.** Use `toAddress` to focus on specific protocol interactions.
-</Tip>
-
-<Tip>
-**Ask for summaries.** "Summarize this wallet's DeFi activity" is more useful than raw transaction lists.
+Ask for summaries: "Summarize this wallet's DeFi activity"
 </Tip>
 
 ## Limitations

@@ -1,109 +1,65 @@
 ---
 title: Introduction
-description: "Learn how to use Claude Code with Herd MCP for blockchain analysis"
+description: Blockchain intelligence for Claude Code
 ---
 
-# Welcome to Herd MCP
+# Herd MCP
 
-Herd MCP (Model Context Protocol) is a powerful integration that connects **Claude Code** to blockchain data and smart contract analysis tools. Think of it as giving Claude superpowers to understand and analyze anything happening on Ethereum and Base.
+Herd connects Claude Code to on-chain data through the Model Context Protocol. Query contracts, decode transactions, and analyze wallets using natural language.
 
-## What is Herd?
-
-Herd is a blockchain intelligence platform that provides:
-
-- **Smart Contract Analysis** - Read, search, and understand any verified contract's code
-- **Transaction Decoding** - Break down complex transactions into human-readable actions
-- **Wallet Intelligence** - Get comprehensive wallet profiles including holdings and activity
-- **Token Tracking** - Monitor token balances and transfer history
-
-## What is MCP?
-
-MCP (Model Context Protocol) is a way to extend Claude's capabilities by connecting it to external tools and data sources. When you connect Herd MCP to Claude Code, Claude gains the ability to:
+## Capabilities
 
 <CardGroup cols={2}>
-  <Card title="Read Smart Contracts" icon="code">
-    Fetch and analyze any verified contract's source code, ABI, and deployment history
+  <Card title="Contracts" icon="file-code">
+    Fetch metadata, search source code, compare proxy implementations
   </Card>
-  <Card title="Decode Transactions" icon="receipt">
-    Understand what happened in any transaction - traces, events, balance changes
+  <Card title="Transactions" icon="arrow-right-arrow-left">
+    Decode traces, parse logs, track balance changes
   </Card>
-  <Card title="Analyze Wallets" icon="wallet">
-    Get wallet overviews including balances, transaction counts, and wallet type detection
+  <Card title="Wallets" icon="wallet">
+    Detect wallet types, view holdings, list deployments
   </Card>
-  <Card title="Track Tokens" icon="coins">
-    Monitor token holdings and transfer history for any address
+  <Card title="Tokens" icon="coins">
+    Track transfers, check balances, pull market data
   </Card>
 </CardGroup>
 
-## Who is this for?
+## Supported Networks
 
-Herd MCP is perfect for:
+| Network | Status |
+|---------|--------|
+| Ethereum | Supported |
+| Base | Supported |
 
-- **Developers** building on Ethereum or Base who need to understand existing contracts
-- **Security Researchers** auditing smart contracts or investigating incidents
-- **DeFi Users** who want to understand protocols before interacting with them
-- **Analysts** tracking wallet activity or token flows
-- **Anyone** curious about what's happening on-chain
+## Use Cases
 
-## How it works
+**Developers** — Understand existing contracts before integrating. Search for specific patterns in verified source code.
+
+**Security Researchers** — Audit contracts, trace exploit transactions, compare implementation versions.
+
+**Analysts** — Track wallet activity, monitor token flows, investigate on-chain behavior.
+
+## Example
 
 ```
-You (natural language) → Claude Code → Herd MCP → Blockchain Data → Analysis
+> What does the swap function do in Uniswap V3 Router?
+
+Claude fetches the contract, parses the source, and explains the swap logic.
 ```
 
-Instead of manually:
-1. Going to Etherscan
-2. Finding the contract
-3. Reading through code
-4. Cross-referencing transactions
+```
+> Decode transaction 0x1234...
 
-You simply ask Claude:
+Claude retrieves traces, logs, and balance changes, then summarizes what happened.
+```
 
-<Note>
-"What does the swap function do in Uniswap V3 Router?"
-</Note>
-
-And Claude will fetch the code, analyze it, and explain it to you in plain English.
-
-## Supported Blockchains
-
-Currently, Herd MCP supports:
-
-| Chain | Status |
-|-------|--------|
-| Ethereum Mainnet | Fully Supported |
-| Base | Fully Supported |
-
-More chains coming soon!
-
-## Quick Example
-
-Here's a taste of what you can do:
-
-**You:** "Give me an overview of vitalik.eth's wallet"
-
-**Claude:** *Uses Herd MCP to fetch wallet data and returns:*
-- Wallet type (EOA)
-- ETH balance
-- Top token holdings with USD values
-- Transaction count
-- Recent activity summary
-
-Ready to get started? Head to the [Quickstart Guide](/quickstart) to set things up in under 2 minutes.
-
-## Next Steps
+## Next
 
 <CardGroup cols={2}>
-  <Card title="Quickstart" icon="rocket" href="/quickstart">
-    Get up and running in 2 minutes
+  <Card title="Quickstart" icon="bolt" href="/quickstart">
+    Connect Herd in 2 minutes
   </Card>
-  <Card title="Setup Guide" icon="gear" href="/setup">
-    Detailed installation instructions
-  </Card>
-  <Card title="Examples" icon="book" href="/examples">
-    See real-world use cases
-  </Card>
-  <Card title="Tool Reference" icon="wrench" href="/tools/contract-metadata">
-    Explore all available tools
+  <Card title="Setup" icon="gear" href="/setup">
+    Configuration options
   </Card>
 </CardGroup>

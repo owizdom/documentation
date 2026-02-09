@@ -1,22 +1,19 @@
 ---
 title: Token Activity
-description: "Track token balances and transfer history for any address"
+description: "Token balance and transfer history for any address"
 ---
 
-# Token Activity Tool
+# Token Activity
 
-The `getTokenActivityTool` provides detailed token balance and transfer history for any address. Perfect for tracking specific token movements and analyzing holding patterns.
+Returns token balance and transfer history for a specific holder/token pair.
 
-## What It Does
+## Returns
 
-- Shows current balance of a specific token
-- Lists transfer history (sent and received)
-- Indicates transfer direction (in/out)
-- Supports pagination for full history
+- Current balance
+- Transfer history (in/out direction)
+- Paginated results (100 per page)
 
-## How to Use It
-
-Ask Claude about token activity:
+## Example Queries
 
 ```
 Show me the USDC transfer history for 0x...
@@ -73,44 +70,21 @@ Showing 5 of 150 transfers (100 per page)
 | **IN** | Tokens received by the holder |
 | **OUT** | Tokens sent from the holder |
 
-## Practical Examples
+## Use Cases
 
-### Example 1: Tracking Incoming Funds
-
-**You:** "When did this wallet last receive USDC and from where?"
-
-**Claude finds:**
+**Track incoming funds:**
 ```
-Last USDC received:
-- Date: 2024-01-14 10:15:00
-- Amount: 5,000.00 USDC
-- From: 0xCoinbase... (Coinbase Exchange)
+When did this wallet last receive USDC and from where?
 ```
 
-### Example 2: Analyzing Spending Patterns
-
-**You:** "How much ETH has this wallet spent in the last month?"
-
-**Claude calculates:**
+**Analyze spending:**
 ```
-ETH Outflows (Last 30 Days):
-- Total sent: 15.5 ETH ($49,000)
-- Number of transfers: 23
-- Largest single transfer: 5 ETH to 0xDeFi...
-- Most frequent recipient: 0xUniswap...
+How much ETH has this wallet spent in the last month?
 ```
 
-### Example 3: Tracking Whale Movements
-
-**You:** "Track PEPE transfers for this known whale wallet"
-
-**Claude shows:**
+**Track whale movements:**
 ```
-PEPE Activity Summary:
-- Current balance: 50B PEPE ($450,000)
-- Accumulated: 75B PEPE total bought
-- Distributed: 25B PEPE sold/transferred
-- Average hold time: 45 days
+Track PEPE transfers for this known whale wallet
 ```
 
 ## Pagination
@@ -164,15 +138,11 @@ For complete analysis:
 ## Tips
 
 <Tip>
-**Use token symbols.** "USDC activity" is easier than typing the full contract address.
+Use token symbols—"USDC activity" is easier than the full address.
 </Tip>
 
 <Tip>
-**Ask for summaries.** "Summarize the token flow" gives you insights, not just raw data.
-</Tip>
-
-<Tip>
-**Check both directions.** "What's the net flow of USDC for this wallet?" considers both in and out.
+Ask for net flow: "What's the net USDC flow for this wallet?"
 </Tip>
 
 ## Supported Token Types

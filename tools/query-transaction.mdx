@@ -1,23 +1,21 @@
 ---
 title: Query Transaction
-description: "Decode and analyze any blockchain transaction in detail"
+description: "Decode traces, logs, and balance changes for any transaction"
 ---
 
-# Query Transaction Tool
+# Query Transaction
 
-The `queryTransactionTool` is your most powerful tool for understanding what happened in any transaction. It decodes traces, logs, and balance changes into human-readable information.
+Decodes transaction data including traces, logs, and balance changes.
 
-## What It Does
+## Returns
 
-- Decodes transaction calldata and function calls
-- Parses event logs with decoded parameters
-- Tracks all balance changes (tokens moved)
-- Shows internal transaction traces
-- Identifies all contracts and addresses involved
+- Decoded calldata and function calls
+- Parsed event logs with parameters
+- Token/ETH balance changes
+- Internal transaction traces
+- All contracts and addresses involved
 
-## How to Use It
-
-Simply ask Claude to analyze a transaction:
+## Example Queries
 
 ```
 What happened in transaction 0x1234...?
@@ -96,35 +94,29 @@ Events:
    - value: 350000000000000000
 ```
 
-## Example Queries
+### Basic Decode
 
-### Basic Transaction Decode
+```
+What happened in 0x8a3c4b5d6e7f...
+```
 
-**You:** "What happened in 0x8a3c4b5d6e7f..."
+Returns: summary, function called, token transfers, gas cost, status
 
-**Claude returns:**
-- Transaction summary (what the user did)
-- Function called with parameters
-- All token transfers
-- Gas used and cost
-- Success/failure status
+### Filtered Results
 
-### Filtered Analysis
+```
+Show me only the USDC transfers in this transaction
+```
 
-**You:** "Show me only the USDC transfers in this transaction"
+Uses `balanceQuery` to filter balance changes.
 
-Claude uses `balanceQuery: "USDC transfers"` to filter results.
+### DeFi Transactions
 
-### DeFi Transaction Analysis
+```
+Explain this Uniswap swap step by step
+```
 
-**You:** "Explain this Uniswap swap transaction step by step"
-
-**Claude will:**
-1. Identify the swap function called
-2. Show input/output tokens and amounts
-3. Explain the routing path
-4. Calculate effective exchange rate
-5. Show any fees paid
+Shows: function called, input/output tokens, routing path, exchange rate, fees
 
 ## Real-World Examples
 
@@ -202,30 +194,22 @@ Gas Wasted: $1.89
 "admin functions"          → Privileged operations
 ```
 
-## Using returnAllData
+## Full Data Mode
 
-When you need everything:
-
-**You:** "Give me the complete breakdown of this transaction with all data"
-
-Claude uses `returnAllData: true` to return:
+Set `returnAllData: true` for complete output:
 - All balance changes (unfiltered)
-- All traces (complete call tree)
-- All event logs (decoded)
-- Raw data (if requested)
+- Complete trace tree
+- All decoded logs
+- Raw data (if `includeRawData: true`)
 
-## Tips for Transaction Analysis
+## Tips
 
 <Tip>
-**Start broad, then filter.** First ask "what happened" then drill into specifics.
+Start broad, then filter. Ask "what happened" first, then drill into specifics.
 </Tip>
 
 <Tip>
-**Ask about the "why".** "Why did this transaction fail?" or "Why were there so many internal calls?"
-</Tip>
-
-<Tip>
-**Compare transactions.** "How is this swap different from transaction 0x...?"
+Ask "why" questions: "Why did this fail?" or "Why so many internal calls?"
 </Tip>
 
 ## Common Questions

@@ -1,15 +1,11 @@
 ---
 title: What is Herd MCP?
-description: "Understanding the Model Context Protocol and how it powers Herd"
+description: "How the Model Context Protocol connects Claude to blockchain data"
 ---
 
-# Understanding MCP (Model Context Protocol)
+# Model Context Protocol (MCP)
 
-MCP is the technology that allows Claude to connect to external tools and data sources like Herd. This page explains how it works and why it matters.
-
-## The Basics
-
-Think of MCP as a universal adapter that lets AI assistants like Claude plug into different services. Without MCP, Claude can only use its training data. With MCP, Claude can:
+MCP connects Claude to external data sources. Without MCP, Claude relies on training data. With it, Claude can:
 
 - Access real-time data
 - Use specialized tools
@@ -24,9 +20,9 @@ Think of MCP as a universal adapter that lets AI assistants like Claude plug int
    a question         the request         the data
 ```
 
-## How Claude Uses Herd Tools
+## Request Flow
 
-When you ask Claude a blockchain question, here's what happens:
+When you ask a blockchain question:
 
 <Steps>
   <Step title="You Ask a Question">
@@ -45,7 +41,7 @@ When you ask Claude a blockchain question, here's what happens:
 
 ## Tool Selection
 
-Claude automatically picks the right tool based on your question:
+Tools are selected based on query type:
 
 | You Ask About | Claude Uses |
 |---------------|-------------|
@@ -57,9 +53,9 @@ Claude automatically picks the right tool based on your question:
 | Recent activity | `getLatestTransactionsTool`, `getTransactionActivityTool` |
 | Contract deployments | `getDeployedContractsTool` |
 
-## The Power of Natural Language
+## Natural Language vs Code
 
-Instead of writing code like this:
+Instead of:
 
 ```javascript
 const provider = new ethers.JsonRpcProvider(RPC_URL);
@@ -70,17 +66,13 @@ const decoded = contract.interface.parseTransaction({ data: tx.data });
 // ... more code to decode logs, traces, etc.
 ```
 
-You just ask:
+You ask:
 
 <Note>
 "Decode transaction 0x123... and explain what it did"
 </Note>
 
-Claude handles all the complexity behind the scenes.
-
-## Limitations to Understand
-
-MCP is powerful but has some constraints:
+## Limitations
 
 <Warning>
 **Rate Limits** - Each tool call uses your API quota. Complex analysis may require multiple calls.

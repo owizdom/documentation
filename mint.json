@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Herd MCP Documentation",
+  "name": "Herd",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
@@ -10,41 +10,41 @@
     "primary": "#6366f1",
     "light": "#818cf8",
     "dark": "#4f46e5",
+    "background": {
+      "dark": "#0f0a1a",
+      "light": "#ffffff"
+    },
     "anchors": {
       "from": "#6366f1",
       "to": "#8b5cf6"
     }
   },
+  "font": {
+    "headings": {
+      "family": "Inter",
+      "weight": 600
+    }
+  },
   "topbarLinks": [
     {
-      "name": "Herd Platform",
+      "name": "Platform",
       "url": "https://herd.eco"
     }
   ],
   "topbarCtaButton": {
-    "name": "Get API Key",
+    "name": "Get Started",
     "url": "https://herd.eco"
   },
-  "tabs": [
-    {
-      "name": "Documentation",
-      "url": "/"
-    },
-    {
-      "name": "Examples",
-      "url": "/examples"
-    }
-  ],
   "anchors": [
     {
       "name": "GitHub",
       "icon": "github",
-      "url": "https://github.com/herd-eco"
+      "url": "https://github.com/owizdom"
     }
   ],
   "navigation": [
     {
-      "group": "Getting Started",
+      "group": "Overview",
       "pages": [
         "introduction",
         "quickstart",
@@ -52,14 +52,14 @@
       ]
     },
     {
-      "group": "Core Concepts",
+      "group": "Concepts",
       "pages": [
         "concepts/mcp-overview",
         "concepts/supported-chains"
       ]
     },
     {
-      "group": "Contract Analysis",
+      "group": "Contract Tools",
       "pages": [
         "tools/contract-metadata",
         "tools/code-analysis",
@@ -67,7 +67,7 @@
       ]
     },
     {
-      "group": "Transaction Analysis",
+      "group": "Transaction Tools",
       "pages": [
         "tools/query-transaction",
         "tools/latest-transactions",
@@ -75,20 +75,11 @@
       ]
     },
     {
-      "group": "Wallet & Tokens",
+      "group": "Wallet Tools",
       "pages": [
         "tools/wallet-overview",
         "tools/token-activity",
         "tools/deployed-contracts"
-      ]
-    },
-    {
-      "group": "Examples & Use Cases",
-      "pages": [
-        "examples/index",
-        "examples/defi-analysis",
-        "examples/security-research",
-        "examples/wallet-investigation"
       ]
     },
     {
@@ -101,7 +92,13 @@
     }
   ],
   "footerSocials": {
-    "twitter": "https://twitter.com/haboraai",
-    "github": "https://github.com/herd-eco"
+    "github": "https://github.com/owizdom",
+    "twitter": "https://twitter.com/haboraai"
+  },
+  "modeToggle": {
+    "default": "dark"
+  },
+  "feedback": {
+    "thumbsRating": true
   }
 }

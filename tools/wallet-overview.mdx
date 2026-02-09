@@ -1,23 +1,21 @@
 ---
 title: Wallet Overview
-description: "Get comprehensive wallet profiles including type detection, balances, and activity"
+description: "Wallet type detection, token balances, and activity metrics"
 ---
 
-# Wallet Overview Tool
+# Wallet Overview
 
-The `getWalletOverviewTool` gives you a complete picture of any wallet on Ethereum or Base, including smart wallet detection, token balances, and activity metrics.
+Returns wallet type, token balances, and activity data for any address.
 
-## What It Does
+## Returns
 
-- **Wallet Type Detection** - Identifies EOA, multisig, smart wallets, and delegated accounts
-- **Token Balances** - All token holdings with USD values
-- **Activity Metrics** - Transaction counts and deployed contracts
-- **Multisig Details** - Signers and pending transactions for Safes
-- **ERC-7702 Support** - Detects delegated EOAs and their implementations
+- **Wallet Type** - EOA, multisig, smart wallet, or delegated account
+- **Token Balances** - Holdings with USD values
+- **Activity** - Transaction count, deployed contracts
+- **Multisig Details** - Signers and pending transactions (for Safes)
+- **ERC-7702** - Implementation address for delegated EOAs
 
-## How to Use It
-
-Ask Claude about any wallet:
+## Example Queries
 
 ```
 Give me an overview of vitalik.eth
@@ -143,42 +141,15 @@ Delegated Functions:
 Balances: [similar to above]
 ```
 
-## Practical Use Cases
+## Use Cases
 
-### Due Diligence on a Wallet
+| Task | Query |
+|------|-------|
+| Check control | "Is this wallet a multisig?" |
+| Portfolio value | "Total value of tokens in this wallet?" |
+| DAO treasury | "Details on the Uniswap governance treasury" |
 
-**You:** "Is this wallet controlled by a single person or is it a multisig?"
-
-**Claude identifies** the wallet type and provides relevant details about control.
-
-### Portfolio Analysis
-
-**You:** "What's the total value of tokens in this wallet?"
-
-**Claude returns** all balances with USD values and totals.
-
-### Investigating a DAO Treasury
-
-**You:** "Give me details on the Uniswap governance treasury"
-
-**Claude shows:**
-- Multisig configuration
-- Signers
-- Major holdings
-- Pending transactions
-
-### Checking Wallet Safety
-
-**You:** "Is it safe to receive funds from this address?"
-
-**Claude analyzes:**
-- Wallet type
-- Historical activity
-- Any red flags
-
-## Combining with Other Tools
-
-For comprehensive wallet analysis:
+## Related Tools
 
 1. **Start with overview** → `getWalletOverviewTool`
 2. **Check specific tokens** → `getTokenActivityTool`
@@ -188,15 +159,11 @@ For comprehensive wallet analysis:
 ## Tips
 
 <Tip>
-**Use ENS names.** Claude can resolve "vitalik.eth" to the address.
+ENS names work: "vitalik.eth" resolves automatically
 </Tip>
 
 <Tip>
-**Ask about specific concerns.** "Is this a fresh wallet?" or "How active is this wallet?"
-</Tip>
-
-<Tip>
-**Compare wallets.** "Compare the holdings of wallet A vs wallet B"
+Be specific: "Is this a fresh wallet?" or "How active is this wallet?"
 </Tip>
 
 ## Common Questions

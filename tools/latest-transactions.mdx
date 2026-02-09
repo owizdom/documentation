@@ -1,22 +1,19 @@
 ---
 title: Latest Transactions
-description: "Find recent transactions calling specific functions or emitting events"
+description: "Find recent transactions by function call or event"
 ---
 
-# Latest Transactions Tool
+# Latest Transactions
 
-The `getLatestTransactionsTool` fetches recent transactions that interact with a specific contract function or emit a specific event. Perfect for monitoring contract activity and finding example transactions.
+Fetches recent transactions that call a specific function or emit a specific event.
 
-## What It Does
+## Returns
 
-- Finds recent transactions calling a specific function
-- Finds recent transactions emitting a specific event
-- Returns transaction hashes with decoded arguments
-- Useful for finding patterns in contract usage
+- Transaction hashes with decoded arguments
+- Function parameters or event data
+- Useful for monitoring activity and finding examples
 
-## How to Use It
-
-Ask Claude to find recent activity:
+## Example Queries
 
 ```
 Show me the last 10 swaps on Uniswap V3
@@ -43,26 +40,17 @@ What are the latest Transfer events from USDC?
 You don't need to know the signature hash - Claude will look it up from the contract's ABI automatically.
 </Note>
 
-## Example Queries
+### Function Calls
 
-### Finding Function Calls
+```
+Show me the latest deposit() calls on Aave
+```
 
-**You:** "Show me the latest deposit() calls on Aave"
+### Events
 
-**Claude will:**
-1. Get the contract's ABI
-2. Find the `deposit` function's signature
-3. Query recent transactions calling that function
-4. Return decoded results
-
-### Finding Events
-
-**You:** "Find recent Transfer events from the PEPE token"
-
-**Claude will:**
-1. Get the Transfer event signature
-2. Query recent logs
-3. Return decoded transfer details
+```
+Find recent Transfer events from the PEPE token
+```
 
 ## Understanding the Output
 
@@ -199,15 +187,11 @@ Recent VoteCast events:
 ## Tips
 
 <Tip>
-**Be specific about the function/event name.** "deposit" is clearer than "put money in".
+Be specific: "deposit" is clearer than "put money in"
 </Tip>
 
 <Tip>
-**Mention the contract.** Different protocols have different function names.
-</Tip>
-
-<Tip>
-**Ask follow-up questions.** After seeing results, ask Claude to analyze a specific transaction.
+Mention the contract—different protocols use different function names.
 </Tip>
 
 ## Limitations

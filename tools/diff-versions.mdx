@@ -1,22 +1,19 @@
 ---
 title: Contract Version Diffs
-description: "Compare code changes between different versions of upgradeable contracts"
+description: "Compare code changes between upgradeable contract versions"
 ---
 
-# Contract Version Diffs Tool
+# Contract Version Diffs
 
-The `diffContractVersions` tool lets you see exactly what changed when a contract was upgraded. Essential for understanding protocol changes and security implications.
+Compares source code between contract implementation versions.
 
-## What It Does
+## Capabilities
 
-- Compares source code between contract versions
-- Shows structured diffs of code modifications
+- Structured diffs of code changes
 - Works with proxy/implementation patterns
-- Can compare all versions or just the latest two
+- Compare last two or all historical versions
 
-## How to Use It
-
-Ask Claude to compare contract versions:
+## Example Queries
 
 ```
 What changed in the latest USDC upgrade?
@@ -40,23 +37,21 @@ Compare all historical versions of this upgradeable contract
 The contract address is automatically determined from the current context. Make sure you've referenced a contract before asking for diffs.
 </Note>
 
-## Example Usage
+## Usage
 
-### Checking the Latest Upgrade
+### Latest Upgrade
 
-**You:** "Show me what changed in the latest upgrade of the Aave V3 Pool contract"
+```
+Show me what changed in the latest upgrade of the Aave V3 Pool
+```
 
-**Claude will:**
-1. Identify the contract's implementation history
-2. Fetch the last two implementation versions
-3. Generate a structured diff
-4. Explain the changes
+### Full History
 
-### Full Version History
+```
+Show all changes this contract has gone through since deployment
+```
 
-**You:** "Show me all the changes this contract has gone through since deployment"
-
-**Claude will use** `compareAllVersions: true` to show every upgrade.
+Uses `compareAllVersions: true` to show every upgrade.
 
 ## Understanding the Output
 
@@ -87,8 +82,6 @@ Changes are shown in a structured format:
 ```
 
 ### Change Summary
-
-Claude will also provide a summary:
 
 ```
 Changes in v2.0 → v2.1:
@@ -168,18 +161,14 @@ The tool automatically handles different proxy patterns:
 | Beacon Proxy | Compares beacon implementations |
 | Diamond (EIP-2535) | Compares facet changes |
 
-## Tips for Using Diffs
+## Tips
 
 <Tip>
-**Start with metadata.** Use `contractMetadataTool` first to understand the proxy structure.
+Start with metadata to understand the proxy structure.
 </Tip>
 
 <Tip>
-**Ask about specific changes.** "Did the upgrade change how withdrawals work?" is more useful than "show me all changes".
-</Tip>
-
-<Tip>
-**Look for security-relevant changes.** Ask "Were there any changes to access control or fund handling?"
+Be specific: "Did the upgrade change how withdrawals work?"
 </Tip>
 
 ## Limitations
